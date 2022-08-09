@@ -3,8 +3,7 @@ version: 2.1
 workflows:
   test-env-vars:
     jobs:
-      - build:
-          context: my_context_name # has an env var called MY_ENV_VAR
+      - build
 
 jobs:
   build:
@@ -16,6 +15,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "echo an env var that is part of our context"
+          name: "echo an env var that is part of our project"
           command: |
-            echo $MY_ENV_VAR
+            echo $MY_ENV_VAR # this env var must be set within the project
