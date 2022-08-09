@@ -15,6 +15,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "echo an env var that is part of our project"
+          name: "Omar"
           command: |
-            echo $MY_ENV_VAR # this env var must be set within the project
+            echo $EGP # this env var must be set within the project
