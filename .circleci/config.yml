@@ -49,23 +49,28 @@ jobs:
           command: |
             ansible-playbook -i inventory.txt main4.yml
 
+commands:
+   # Exercise - Rollback
+   destroy_environment:
+     steps:
+       - run:
+           name: Destroy environment
+           # ${CIRCLE_WORKFLOW_ID} is a Built-in environment variable 
+           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
+           when: on_fail
+           command: |
+             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}  
+
   # Exercise: Smoke Testing
-  smoke_test:
-    docker:
-      - image: alpine:latest
-    steps:
-      - run: apk add --update curl
-      - run:
-          name: smoke test
-          command: |
-            URL="https://blog.udacity.com/"
-            # Test if website exists
-            if curl -s --head ${URL} 
-            then
-              echo "It Worked"
-            else
-              echo "It Failed"
-            fi     
+smoke_test:
+ docker:
+   - image: alpine:latest
+ steps:
+   - run:
+       name: Test job
+       # Fail the job intentionally to simulate an error.
+       command:  return 1
+   - destroy_environment
 
 # Name the workflow "welcome"
 workflows:
