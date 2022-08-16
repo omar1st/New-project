@@ -5,7 +5,7 @@ orbs:
   # Choose either one of the orbs below
   # Declare a dependency on the welcome-orb
   # welcome: circleci/welcome-orb@0.4.1
-  aws-cli: circleci/aws-cli@2.0.3
+  #aws-cli: circleci/aws-cli@2.0.3
 # Orchestrate or schedule a set of jobs
 
 jobs:
@@ -14,13 +14,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
-workflows:
-  my_workflow:
-    jobs:
-      - build
+      - run: echo "hello world" # run the `echo` command    
 
-jobs:
   create_infrastructure: 
       docker:
         - image: amazon/aws-cli
@@ -36,4 +31,5 @@ jobs:
 workflows:
   my_workflow:
     jobs:
+      - build
       - create_infrastructure
