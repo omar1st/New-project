@@ -69,7 +69,6 @@ jobs:
           name: smoke test
           command: |
             return 1
-        when: on_fail
       - destroy_environment
         
 
