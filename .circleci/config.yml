@@ -8,6 +8,16 @@ orbs:
   #aws-cli: circleci/aws-cli@2.0.3
 # Orchestrate or schedule a set of jobs
 
+commands:
+  # Exercise - Rollback
+  destroy_environment:
+    steps:
+      - run:
+          name: Destroy environment
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
+
 jobs:
   build:
     docker:
@@ -47,28 +57,26 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt main4.yml
-
-commands:
-  # Exercise - Rollback
-  destroy_environment:
-    steps:
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: |
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}  
+            ansible-playbook -i inventory.txt main4.yml  
 
   # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: amazon/aws-cli
+      - image: alpine:latest
     steps:
+      - run: apk add --update curl
       - run:
-          name: erorr
-          # Fail the job intentionally to simulate an error.
-          command:  return 1
-      - destroy_environment
+          name: smoke test
+          command: |
+            URL="https://blog.udacity123.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi
+      - destroy_environment 
         
 
 # Name the workflow "welcome"
