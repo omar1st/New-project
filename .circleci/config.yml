@@ -62,10 +62,10 @@ commands:
   # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: alpine:latest
+      - image: amazon/aws-cli
     steps:
       - run:
-          name: smok test
+          name: erorr
           # Fail the job intentionally to simulate an error.
           command:  return 1
       - destroy_environment
