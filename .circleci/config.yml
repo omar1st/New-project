@@ -68,16 +68,9 @@ jobs:
       - run:
           name: smoke test
           command: |
-            URL="https://blog.udacity123.com/"
-            # Test if website exists
-            if curl -s --head ${URL} 
-            then
-              return 0
-            else
-              return 1
-            fi
-      - destroy_environment
+            return 1
         when: on_fail
+      - destroy_environment
         
 
 # Name the workflow "welcome"
