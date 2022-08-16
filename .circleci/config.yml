@@ -49,6 +49,25 @@ jobs:
           command: |
             ansible-playbook -i inventory.txt main4.yml
 
+  # Exercise: Smoke Testing
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi
+      - destroy_environment      
+
 # Name the workflow "welcome"
 workflows:
  # Run the welcome/run job in its own container
@@ -58,3 +77,4 @@ workflows:
       - build
       - create_infrastructure
       - configure_infrastructure
+      - smoke_test
