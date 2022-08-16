@@ -16,6 +16,8 @@ jobs:
       - checkout # check out the code in the project directory
       - run: echo "hello world" # run the `echo` command    
 
+  # Exercise: Infrastructure Creation
+  # Exercise - Rollback
   create_infrastructure: 
       docker:
         - image: amazon/aws-cli
@@ -28,8 +30,3 @@ jobs:
                 --template-file template.yml \
                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                 --region us-east-1
-workflows:
-  my_workflow:
-    jobs:
-      - build
-      - create_infrastructure
