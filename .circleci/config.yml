@@ -67,7 +67,6 @@ commands:
           name: Test job
           # Fail the job intentionally to simulate an error.
           command:  return 1
-        when: on_fail
       - destroy_environment
         
 
