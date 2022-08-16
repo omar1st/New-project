@@ -62,15 +62,15 @@ commands:
              aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}  
 
   # Exercise: Smoke Testing
-smoke_test:
- docker:
-   - image: alpine:latest
- steps:
-   - run:
-       name: Test job
-       # Fail the job intentionally to simulate an error.
-       command:  return 1
-   - destroy_environment
+  smoke_test:
+  docker:
+    - image: alpine:latest
+  steps:
+    - run:
+        name: Test job
+        # Fail the job intentionally to simulate an error.
+        command:  return 1
+    - destroy_environment
 
 # Name the workflow "welcome"
 workflows:
