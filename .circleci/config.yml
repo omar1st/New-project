@@ -14,6 +14,7 @@ commands:
     steps:
       - run:
           name: Destroy environment
+          when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -63,7 +64,6 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      - run: apk add --update curl
       - run:
           name: smoke test
           command: |
@@ -76,7 +76,6 @@ jobs:
               return 1
             fi
       - destroy_environment
-        when: on_fail
         
 
 # Name the workflow "welcome"
